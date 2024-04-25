@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('schools.urls')),
     path('api/', include('classes.urls')),
+    path('api/', include('courses.urls')),
     path('api/schools/<int:school_pk>/classes/', include(classes_router.urls)),
 
 ]
