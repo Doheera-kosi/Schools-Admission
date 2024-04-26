@@ -105,6 +105,7 @@
 
 #-------------------------------------------
 from django.db import models
+from courses.models import Course
 
 class Location(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -181,6 +182,9 @@ class School(models.Model):
 
     logo = models.ImageField(upload_to="school_logos/", null=True, blank=True)
     name = models.CharField(max_length=100, unique=True, choices=SCHOOL_CHOICES)
+    
+    courses = models.ManyToManyField(Course, related_name='schools', blank=True)
+
     location = models.CharField(max_length=100, choices=LOCATION_CHOICES, blank=True, null=True)
     contact_phone = models.CharField(max_length=20, default="+1234567890")
     contact_email = models.EmailField(unique=True, max_length=255, null=True, blank=True)
