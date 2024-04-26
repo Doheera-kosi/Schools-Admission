@@ -8,5 +8,8 @@ router.register(r'classes', ClassViewSet, basename='classes')
 urlpatterns = [
     path('', include(router.urls)),
     path('schools/<int:pk>/classes/', SchoolClassesViewSet.as_view({'get': 'list'}), name='school-classes-list'),
+    
+    path('classes/<int:pk>/enroll/', ClassViewSet.as_view({'post': 'enroll_student'}), name='class-enroll'),
+
 
 ]
