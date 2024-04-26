@@ -106,6 +106,7 @@
 #-------------------------------------------
 from django.db import models
 from courses.models import Course
+from classes.models import Class
 
 class Location(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -194,11 +195,18 @@ class School(models.Model):
     administrator_name = models.CharField(max_length=100, null=True, blank=True)
     administrator_contact = models.CharField(max_length=20, default="+00-000-000-00")
     max_students = models.PositiveIntegerField(default=0)
-
+    
     def __str__(self):
         return self.name
-
+    
     def save(self, *args, **kwargs):
         if self.name in dict(self.SCHOOL_CHOICES):
             self.location = dict(self.LOCATION_CHOICES).get(self.name)
         super().save(*args, **kwargs)
+
+    def is_full(self):
+        """
+        Check if the school is at full capacity.
+        """
+        total_students = sum(class_instance.capacity for class_instance in self.classes.all())
+        return total_students >= self.max_students

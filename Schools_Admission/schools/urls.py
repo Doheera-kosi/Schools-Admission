@@ -11,5 +11,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api/', include(router.urls)),
     path('schools/<int:pk>/students/', SchoolStudentsDetailView.as_view(), name='school-students-detail'),
+    
+    path('schools/<int:pk>/full/', SchoolViewSet.as_view({'get': 'school_full_status'}), name='school-full-status'),
 
 ]

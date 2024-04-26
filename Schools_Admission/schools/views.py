@@ -49,6 +49,17 @@ class SchoolViewSet(viewsets.ModelViewSet):
         school = self.get_object()
         course_count = school.courses.count()  # Count the number of courses associated with the school
         return Response({'course_count': course_count})
+    
+    # method that checks the school's full capacity:
+    def school_full_status(self, request, pk=None):
+        try:
+            school_instance = self.get_object()
+            if school_instance.is_full():
+                return Response({'message': 'The school is full'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'The school is not full'}, status=status.HTTP_200_OK)
+        except School.DoesNotExist:
+            return Response({'message': 'School not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class SchoolStudentsDetailView(generics.RetrieveAPIView):
     queryset = School.objects.all()
